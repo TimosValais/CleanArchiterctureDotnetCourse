@@ -1,0 +1,11 @@
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\bin\Debug\net7.0\GymManagement.Contracts.deps.json
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\bin\Debug\net7.0\GymManagement.Contracts.dll
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\bin\Debug\net7.0\GymManagement.Contracts.pdb
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.AssemblyInfoInputs.cache
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.AssemblyInfo.cs
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.dll
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\obj\Debug\net7.0\refint\GymManagement.Contracts.dll
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\obj\Debug\net7.0\GymManagement.Contracts.pdb
+C:\Users\timos\OneDrive\Documents\Programming\Tutorials\Chapsas\CleanArchitercture\src\GymManagement.Contracts\obj\Debug\net7.0\ref\GymManagement.Contracts.dll
