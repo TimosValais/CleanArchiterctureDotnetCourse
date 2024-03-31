@@ -2,7 +2,7 @@ using GymManagement.Application.Subscriptions.CreateSubscription;
 using GymManagement.Contracts.Subscriptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-
+using ErrorOr;
 namespace GymManagement.Api.Controllers;
 
 [ApiController]
@@ -19,8 +19,11 @@ public class SubscriptionsController : ControllerBase
     public async Task<IActionResult> CreateSubscription(CreateSubscriptionRequest request)
     {
         var command = new CreateSubscriptionCommand(request.SubscriptionType.ToString(), request.AdminId);
-        var subscriptionId = await _mediator.Send(command);
-        var response = new SubscriptionResponse(subscriptionId, request.SubscriptionType);
-        return Ok(response);
+        var createSubscriptionResult = await _mediator.Send(command);
+
+        return createSubscriptionResult.MatchFirst(
+            guid => Ok(new SubscriptionResponse(guid, request.SubscriptionType)),
+            error => Problem()
+        );
     }
 }
