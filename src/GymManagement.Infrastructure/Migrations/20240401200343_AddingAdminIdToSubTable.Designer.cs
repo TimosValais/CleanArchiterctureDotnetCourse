@@ -3,6 +3,7 @@ using System;
 using GymManagement.Infrastructures.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(GymManagementDbContext))]
-    partial class GymManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240401200343_AddingAdminIdToSubTable")]
+    partial class AddingAdminIdToSubTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -22,9 +25,8 @@ namespace GymManagement.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SubscriptionType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("SubscriptionType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<Guid>("_adminId")
                         .HasColumnType("TEXT")
