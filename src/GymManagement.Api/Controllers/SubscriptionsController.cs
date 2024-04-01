@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using ErrorOr;
 using GymManagement.Domain.Subscriptions;
 using GymManagement.Application.Subscriptions.Querries.GetSubscription;
+using Contracts = GymManagement.Contracts;
+using DomainSubscriptionType = GymManagement.Domain.Subscriptions.SubscriptionType;
 namespace GymManagement.Api.Controllers;
 
 [ApiController]
@@ -20,7 +22,11 @@ public class SubscriptionsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateSubscription(CreateSubscriptionRequest request)
     {
-        var command = new CreateSubscriptionCommand(request.SubscriptionType.ToString(), request.AdminId);
+        if (!DomainSubscriptionType.TryFromName(request.SubscriptionType.ToString(), out var subscriptionType))
+        {
+            return Problem(statusCode: StatusCodes.Status400BadRequest, detail: "Invalid Subscription Type");
+        }
+        var command = new CreateSubscriptionCommand(subscriptionType, request.AdminId);
         var createSubscriptionResult = await _mediator.Send(command);
 
         return createSubscriptionResult.MatchFirst(
@@ -34,7 +40,7 @@ public class SubscriptionsController : ControllerBase
     {
         var getSubscriptionResult = await _mediator.Send(new GetSubscriptionQuerry(subscriptionId));
         return getSubscriptionResult.Match(
-            subscription => Ok(new SubscriptionResponse(subscription.Id, Enum.Parse<SubscriptionType>(subscription.SubscriptionType))),
+            subscription => Ok(new SubscriptionResponse(subscription.Id, Enum.Parse<Contracts.Subscriptions.SubscriptionType>(subscription.SubscriptionType.Name))),
             errors =>
             {
                 string error = "";
