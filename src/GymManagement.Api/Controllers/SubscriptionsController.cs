@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ErrorOr;
 using GymManagement.Domain.Subscriptions;
-using GymManagement.Application.Subscriptions.Querries.GetSubscription;
+using GymManagement.Application.Subscriptions.Queries.GetSubscription;
 using Contracts = GymManagement.Contracts;
 using DomainSubscriptionType = GymManagement.Domain.Subscriptions.SubscriptionType;
 namespace GymManagement.Api.Controllers;
@@ -38,7 +38,7 @@ public class SubscriptionsController : ControllerBase
     [HttpGet("{subscriptionId:guid}")]
     public async Task<IActionResult> GetSubscription(Guid subscriptionId)
     {
-        var getSubscriptionResult = await _mediator.Send(new GetSubscriptionQuerry(subscriptionId));
+        var getSubscriptionResult = await _mediator.Send(new GetSubscriptionQuery(subscriptionId));
         return getSubscriptionResult.Match(
             subscription => Ok(new SubscriptionResponse(subscription.Id, Enum.Parse<Contracts.Subscriptions.SubscriptionType>(subscription.SubscriptionType.Name))),
             errors =>
