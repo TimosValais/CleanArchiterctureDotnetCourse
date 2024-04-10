@@ -7,7 +7,7 @@ using GymManagement.Domain.Gyms;
 using MediatR;
 
 namespace GymManagement.Application.Gyms.Queries.ListGyms;
-public class ListGymsQueryHandler : IRequestHandler<ListGymQuery, ErrorOr<ICollection<Gym>>>
+public class ListGymsQueryHandler : IRequestHandler<ListGymsQuery, ErrorOr<ICollection<Gym>>>
 {
     private readonly IGymsRepository _gymsRepository;
 
@@ -15,9 +15,9 @@ public class ListGymsQueryHandler : IRequestHandler<ListGymQuery, ErrorOr<IColle
     {
         _gymsRepository = gymsRepository;
     }
-    public async Task<ErrorOr<ICollection<Gym>>> Handle(ListGymQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<ICollection<Gym>>> Handle(ListGymsQuery request, CancellationToken cancellationToken)
     {
-        ICollection<Gym> gyms = await _gymsRepository.GetAll(request.SubscriptionId);
+        ICollection<Gym> gyms = await _gymsRepository.ListBySubscriptionIdAsync(request.SubscriptionId);
 
         return gyms.Count >= 0 ? gyms.ToList() : Error.Failure("Couldn't retrieve the gyms");
     }

@@ -5,13 +5,17 @@ namespace GymManagement.Application.Common.Interfaces;
 public interface IGymsRepository
 {
 
+
+    Task<bool> ExistsAsync(Guid id);
+    Task RemoveGymAsync(Gym gym);
+    Task RemoveRangeAsync(List<Gym> gyms);
+
     Task AddGymAsync(Gym gym);
 
     Task UpdateGymAsync(Gym gym);
-    Task DeleteGymAsync(Guid gymId);
 
     Task<Gym?> GetByIdAsync(Guid gymId);
 
-    Task<ICollection<Gym>> GetAll(Guid subscriptionId);
+    Task<ICollection<Gym>> ListBySubscriptionIdAsync(Guid subscriptionId);
 
 }
