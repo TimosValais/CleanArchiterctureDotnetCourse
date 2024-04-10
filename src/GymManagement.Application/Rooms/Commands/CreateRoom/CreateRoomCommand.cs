@@ -3,6 +3,6 @@ using GymManagement.Domain.Gyms;
 using GymManagement.Domain.Rooms;
 using MediatR;
 
-namespace GymManagement.Application.Rooms.CreateRoom;
+namespace GymManagement.Application.Rooms.Commands.CreateRoom;
 
-public record CreateRoomCommand(Room Room) : IRequest<ErrorOr<Gym>>;
+public record CreateRoomCommand(Guid GymId, string Name) : IRequest<ErrorOr<Room>>;
