@@ -8,13 +8,20 @@ namespace GymManagement.Application.Gyms.Queries.GetGym;
 public class GetGymQueryHandler : IRequestHandler<GetGymQuery, ErrorOr<Gym>>
 {
     private readonly IGymsRepository _gymsRepository;
+    private readonly ISubscriptionsRepository _subscriptionsRepository;
 
-    public GetGymQueryHandler(IGymsRepository gymsRepository)
+    public GetGymQueryHandler(IGymsRepository gymsRepository, ISubscriptionsRepository subscriptionsRepository)
     {
         _gymsRepository = gymsRepository;
+        _subscriptionsRepository = subscriptionsRepository;
     }
     public async Task<ErrorOr<Gym>> Handle(GetGymQuery request, CancellationToken cancellationToken)
     {
+        if (!await _subscriptionsRepository.ExistsAsync(request.SubscriptionId))
+        {
+            return Error.NotFound("Subscription not found");
+        }
+
         Gym? gym = await _gymsRepository.GetByIdAsync(request.Id);
 
         return gym is null

@@ -17,7 +17,7 @@ public class ListGymsQueryHandler : IRequestHandler<ListGymQuery, ErrorOr<IColle
     }
     public async Task<ErrorOr<ICollection<Gym>>> Handle(ListGymQuery request, CancellationToken cancellationToken)
     {
-        ICollection<Gym> gyms = await _gymsRepository.GetAll();
+        ICollection<Gym> gyms = await _gymsRepository.GetAll(request.SubscriptionId);
 
         return gyms.Count >= 0 ? gyms.ToList() : Error.Failure("Couldn't retrieve the gyms");
     }

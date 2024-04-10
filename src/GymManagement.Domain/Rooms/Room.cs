@@ -4,14 +4,20 @@ public class Room
 {
 
 
-    public Guid Id { get; private set; }
+    public Guid Id { get; }
 
-    public string Name { get; private set; }
+    public Guid GymId { get; }
 
-    public Room(Guid id, string name)
+    public string Name { get; } = null!;
+
+    public int MaxDailySessions { get; }
+
+    public Room(Guid gymId, int maxDailySessions, string name, Guid? roomId = null)
     {
-        Id = id;
+        Id = roomId ?? Guid.NewGuid();
         Name = name;
+        GymId = gymId;
+        MaxDailySessions = maxDailySessions;
     }
 
     private Room()

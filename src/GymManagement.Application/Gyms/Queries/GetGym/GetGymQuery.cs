@@ -5,4 +5,4 @@ using MediatR;
 namespace GymManagement.Application.Gyms.Queries.GetGym;
 
 
-public record GetGymQuery(Guid Id) : IRequest<ErrorOr<Gym>>;
+public record GetGymQuery(Guid SubscriptionId, Guid Id) : IRequest<ErrorOr<Gym>>;

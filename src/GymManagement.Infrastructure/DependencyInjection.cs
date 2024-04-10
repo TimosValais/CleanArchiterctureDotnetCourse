@@ -1,6 +1,6 @@
 using GymManagement.Application.Common.Interfaces;
 using GymManagement.Infrastructure.Subscriptions.Persistence;
-using GymManagement.Infrastructures.Common.Persistence;
+using GymManagement.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -9,19 +9,37 @@ public class CreateGymCommandHandler : IRequestHandler<CreateGymCommand, ErrorOr
 {
     private readonly IGymsRepository _gymsRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ISubscriptionsRepository _subscriptionsRepository;
 
-    public CreateGymCommandHandler(IGymsRepository gymsRepository, IUnitOfWork unitOfWork)
+    public CreateGymCommandHandler(ISubscriptionsRepository subscriptionsRepository, IGymsRepository gymsRepository, IUnitOfWork unitOfWork)
     {
         _gymsRepository = gymsRepository;
         _unitOfWork = unitOfWork;
+        _subscriptionsRepository = subscriptionsRepository;
     }
     public async Task<ErrorOr<Gym>> Handle(CreateGymCommand request, CancellationToken cancellationToken)
     {
+        var subscription = await _subscriptionsRepository.GetByIdAsync(request.SubscriptionId);
 
-        Gym gym = new(request.Id, request.Name, request.Rooms, request.Trainers);
+        if (subscription is null)
+        {
+            return Error.NotFound(description: "Subscription not found");
+        }
 
+        var gym = new Gym(
+            name: request.Name,
+            maxRooms: subscription.GetMaxRooms(),
+            subscriptionId: subscription.Id);
+
+        var addGymResult = subscription.AddGym(gym);
+
+        if (addGymResult.IsError)
+        {
+            return addGymResult.Errors;
+        }
+
+        await _subscriptionsRepository.UpdateAsync(subscription);
         await _gymsRepository.AddGymAsync(gym);
-
         await _unitOfWork.CommitChangesAsync();
 
         return gym;

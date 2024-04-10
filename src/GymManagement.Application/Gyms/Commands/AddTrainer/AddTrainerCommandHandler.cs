@@ -1,9 +1,12 @@
+using System.Security.Cryptography.X509Certificates;
+using ErrorOr;
 using GymManagement.Application.Common.Interfaces;
+using GymManagement.Domain.Gyms;
 using MediatR;
 
 namespace GymManagement.Application.Gyms.Commands.AddTrainer;
 
-public class AddTrainerCommandHandler : IRequestHandler<AddTrainerCommand>
+public class AddTrainerCommandHandler : IRequestHandler<AddTrainerCommand, ErrorOr<Success>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IGymsRepository _gymsRepository;
@@ -13,10 +16,25 @@ public class AddTrainerCommandHandler : IRequestHandler<AddTrainerCommand>
         _unitOfWork = unitOfWork;
         _gymsRepository = gymsRepository;
     }
-    public async Task Handle(AddTrainerCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Success>> Handle(AddTrainerCommand request, CancellationToken cancellationToken)
     {
-        await _gymsRepository.AddTrainerAsync(request.GymId, request.Trainer);
+        Gym? gym = await _gymsRepository.GetByIdAsync(request.GymId);
+
+        if (gym is null)
+        {
+            return Error.NotFound(description: "Gym not found");
+        }
+
+        var addTrainerResult = gym.AddTrainer(request.TrainerId);
+
+        if (addTrainerResult.IsError)
+        {
+            return addTrainerResult.Errors;
+        }
+        await _gymsRepository.UpdateGymAsync(gym);
 
         await _unitOfWork.CommitChangesAsync();
+
+        return Result.Success;
     }
 }
